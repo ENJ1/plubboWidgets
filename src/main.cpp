@@ -29,21 +29,36 @@ int main(int argc, char** args)
     SDL_Texture* bmptexture = SDL_CreateTextureFromSurface(renderer, bmpsurface);
     SDL_RenderCopy(renderer, bmptexture, NULL, NULL);
 
-    //Set the draw color of renderer to green
-    //SDL_SetRenderDrawColor(renderer, 0, 255, 255, 1);
+    SDL_Rect rect;
+    rect.x = 250;
+    rect.y = 150;
+    rect.w = 200;
+    rect.h = 200;
 
-    //Clear the renderer with the draw color
-    //SDL_RenderClear(renderer);
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderDrawRect(renderer, &rect);
 
-    //Update the renderer which will show the renderer cleared by the draw color which is green
-    
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+
+    // Show the renderer on screen    
     SDL_RenderPresent(renderer);
 
 
     bool isquit = false;
     SDL_Event event;
     while (!isquit) {
-        if (SDL_PollEvent( & event)) {
+        if (SDL_PollEvent( & event)) 
+        {
+            SDL_Point mousePosition;
+
+            // Mouse click coords from event handler
+            mousePosition.x = event.motion.x; 
+            mousePosition.y = event.motion.y;
+
+            if (SDL_PointInRect(&mousePosition, &rect)) 
+            {
+                printf("caught it!");
+            }
             if (event.type == SDL_QUIT) {
                 isquit = true;
             }
